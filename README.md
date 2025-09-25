@@ -68,9 +68,9 @@ The purpose of this file format is not usage in real world applications,
 but to simplify testing features in Pillow based applications. Since
 the format can load and save any image mode, it makes testing image
 operations, filters, conversions etc. concerning supported modes a
-litte easier. Pillow comes with an obscure file format called IM,
-I guess mainly for this purpose, that also supports most image modes,
-but not all.
+little easier. Pillow comes with an obscure file format called IM -
+I guess mainly for the very same purpose - that also supports most image modes,
+but not all of them.
 
 Note that the "PIL" format is not affiliated with the PIL/Pillow dev
 team in any way, I called it "PIL" because a) it is s based on Pillow's
@@ -94,7 +94,7 @@ Only if mode is "P" or "PA":
 
 
 |                  <image data size> (unsigned long)                    |
-|             <image data> (compressed or uncompressed) ...             |
+|               <image data> (compressed or uncompressed)               |
 |                                ...                                    |
 
 Either:
