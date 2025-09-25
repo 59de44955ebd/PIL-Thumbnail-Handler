@@ -1,0 +1,11 @@
+// {085EE412-A46D-4A3A-8595-F4B0041B1340}
+const GUID CLSID_ShelExtensionHandler =
+{ 0x85ee412, 0xa46d, 0x4a3a, { 0x85, 0x95, 0xf4, 0xb0, 0x4, 0x1b, 0x13, 0x40 } };
+
+// {97A4F265-7C1C-413F-A2F9-593A03D27DC0}
+const GUID APPID_ShelExtensionHandler =
+{ 0x97a4f265, 0x7c1c, 0x413f, { 0xa2, 0xf9, 0x59, 0x3a, 0x3, 0xd2, 0x7d, 0xc0 } };
+
+#define FORMAT_EXTENSION1 L".pil"
+
+#define APPICATION_DESCRIPTION L"PIL Thumbnail Handler"
