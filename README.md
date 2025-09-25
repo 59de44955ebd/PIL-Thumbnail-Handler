@@ -24,7 +24,7 @@ plugin automatically loads and saves P or PA images with those rawmodes
 if the image's palette has at most 2 resp. 4 resp. 16 colors. The mode
 string saved in the file is still just P resp. PA).
 
-The PIL image file format supports DEFLATE compression of the image data, which is the same compression that PNG uses. So a RGB PIL file has roughly the same filesize as the same image stored as PNG.
+The PIL image file format supports DEFLATE compression of the image data, which is the same compression that PNG uses. Therefor a compressed RGB PIL file has roughly the same filesize as the same image stored as PNG.
 
 ## Usage
 
