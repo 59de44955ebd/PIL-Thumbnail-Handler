@@ -125,6 +125,7 @@ def _open(fp, filename, ** kwargs):
 
     mode = fp.read(4).rstrip(b"\0").decode()
     if mode == "YCC":
+        # YCbCr is the only mode name that needs more than 4 letters.
         mode = "YCbCr"
 
     if mode in ("P", "PA"):
@@ -179,7 +180,7 @@ def _save(im: Image.Image, fp: IO[bytes], filename: str | bytes):
     fp.write(struct.pack('<H', im.height))
 
     if im.mode == "YCbCr":
-        # YCbCr is the only format name that needs more than 4 letters.
+        # YCbCr is the only mode name that needs more than 4 letters.
         fp.write(b"YCC\0")
     else:
         fp.write(im.mode.ljust(4, "\0").encode())
