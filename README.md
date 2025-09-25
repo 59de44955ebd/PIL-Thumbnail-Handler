@@ -72,8 +72,8 @@ little easier. Pillow comes with an obscure file format called IM -
 I guess mainly for the very same purpose - that also supports most image modes,
 but not all of them.
 
-Note that the "PIL" format is not affiliated with the PIL/Pillow dev
-team in any way, I called it "PIL" because a) it is s based on Pillow's
+**Note**: this PIL file format is not affiliated with the PIL/Pillow project/dev
+team in any way, I called it "PIL" because a) it is based on PIL/Pillow's
 image modes and internal data layout, and b) because the file extension
 *.pil was still available, i.e. not used by any common file format yet.
 
