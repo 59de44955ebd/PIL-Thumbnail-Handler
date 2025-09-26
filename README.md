@@ -43,6 +43,15 @@ import PilImagePlugin  # registers the plugin in Pillow
 
 img = Image.open('CMYK.pil')
 img.show()
+
+# Save as compressed grayscale image
+img.convert('L').save('L.pil', compression=1)
+
+# Same as: img.convert('L').save('L.pil', compression=PilImagePlugin.Compression.DEFLATE)
+# DEFLATE compression is now the default, so also the same as:
+# img.convert('L').save('L.pil')
+# Use compression=0 or compression=PilImagePlugin.Compression.UNCOMPRESSED to save as 
+# uncompressed image file.
 ```
 
 ## Screenshots                

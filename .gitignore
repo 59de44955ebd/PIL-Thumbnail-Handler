@@ -3,6 +3,7 @@ Win32/
 stuff/
 releases/
 _backup.rar
+_test.py
 
 # User-specific files
 *.rsuser

@@ -166,7 +166,8 @@ def _open(fp, filename, ** kwargs):
 
 def _save(im: Image.Image, fp: IO[bytes], filename: str | bytes):
 
-    compression = im.encoderinfo.get("compression", Compression.UNCOMPRESSED)
+    # Not sure, should we default to compressed or uncompressed?
+    compression = im.encoderinfo.get("compression", Compression.DEFLATE)
     if compression == Compression.UNCOMPRESSED:
         magic = b"PL\0\0"
     elif compression == Compression.DEFLATE:
