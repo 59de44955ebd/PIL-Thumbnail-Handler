@@ -65,7 +65,7 @@ img.convert('L').save('L.pil', compression=1)
 internally used image data - as returned by Image.tobytes() -
 directly in the file, optionally compressed with DEFLATE compression.
 
-It therefor supports any image mode (not rawmode) that Pillow supports.
+It therefor supports *any* image mode (not rawmode) that Pillow supports.
 
 It adds a minimal file header to the data, and in case of mode
 "P" or "PA" also the palette colors and the index of a transparent
@@ -107,13 +107,14 @@ Only if mode is "P" or "PA":
 |                                ...                                    |
 
 Either:
-|                               0000 (=EOF)                             |
+|                               0000 (=EOF marker)                      |
 Or:
 |                    <EXIF data> (starting with "Exif")                 |
 |                                ...                                    |
 
 
-<compression>: \0 = uncompressed, \1 = DEFLATE (other compression schemes could be added)
+<compression>: \0 = uncompressed, \1 = DEFLATE 
+    (other compression schemes like e.g. RLE, LZW or LZMA could be added)
 <tr>: Transparency? \0 = no, \1 = yes
 <tr index>: Index of transparent color in palette (if <tr> is \1)
 ```
