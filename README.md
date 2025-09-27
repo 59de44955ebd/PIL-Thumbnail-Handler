@@ -34,7 +34,7 @@ Run `unregister_run_as_admin.cmd` as admin to unregister the shell extension.
 
 ## PilImagePlugin.py (Python)
 
-`PilImagePlugin.py` is a simple image plugin for [Pillow](https://pillow.readthedocs.io/en/stable/) that allows Pillow to read and write PIL image files, with any image mode that Pillow supports.
+[PilImagePlugin.py](/PilImagePlugin.py) is a simple image plugin for [Pillow](https://pillow.readthedocs.io/en/stable/) that allows Pillow to read and write PIL image files, with any image mode that Pillow supports.
 
 Usage:
 ```python

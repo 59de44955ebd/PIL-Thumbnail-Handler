@@ -1,5 +1,5 @@
 """
-"PIL" is a very simple (dummy) image file format that stores Pillow's
+"PIL" is a very simple (dummy) image file format that stores Pillow"s
 internally used image data - as returned by Image.tobytes() -
 directly in the file, optionally compressed with DEFLATE compression.
 
@@ -20,7 +20,7 @@ I guess mainly for this purpose, that also supports most image modes,
 but not all.
 
 Note that the "PIL" format is not affiliated with the PIL/Pillow dev
-team in any way, I called it "PIL" because a) it is s based on Pillow's
+team in any way, I called it "PIL" because a) it is s based on Pillow"s
 image modes and internal data layout, and b) because the file extension
 *.pil was still available, i.e. not used by a common file format yet.
 
@@ -32,7 +32,7 @@ CMYK, RGBA, RGB, LA, PA, L, P, P:4, P:2, P:1, 1, I, F, HSV, YCbCr
 
 (Note: P:1, P:2 and P:4 are actually rawmodes, not modes. This image
 plugin automatically loads and saves P or PA images with those rawmodes
-if the image's palette has at most 2 resp. 4 resp. 16 colors. The mode
+if the image"s palette has at most 2 resp. 4 resp. 16 colors. The mode
 string saved in the file is still just P resp. PA.)
 
 
@@ -95,16 +95,16 @@ def get_exif_data(filename):
     Raises PILFormatError if PIL file is invalid/corrupted.
     """
     try:
-        with open(filename, 'rb') as fp:
+        with open(filename, "rb") as fp:
             fp.seek(8)
-            mode = fp.read(4).rstrip(b'\0').decode()
-            if mode in ('P', 'PA'):
-                num_colors = struct.unpack('<H', fp.read(2))[0]
+            mode = fp.read(4).rstrip(b"\0").decode()
+            if mode in ("P", "PA"):
+                num_colors = struct.unpack("<H", fp.read(2))[0]
                 fp.seek(2 + num_colors * 3, 1)
-            data_size = struct.unpack('<L', fp.read(4))[0]
+            data_size = struct.unpack("<L", fp.read(4))[0]
             fp.seek(data_size, 1)
             exif_data = fp.read()
-        if exif_data.startswith(b'Exif'):
+        if exif_data.startswith(b"Exif"):
             return exif_data
     except:
         raise PILFormatError("Bad PIL file")
@@ -121,7 +121,7 @@ def _open(fp, filename, ** kwargs):
     if compression not in (Compression.UNCOMPRESSED, Compression.DEFLATE):
         raise PILFormatError("Bad PIL compression")
 
-    w, h = struct.unpack('<2H', fp.read(4))
+    w, h = struct.unpack("<2H", fp.read(4))
 
     mode = fp.read(4).rstrip(b"\0").decode()
     if mode == "YCC":
@@ -129,9 +129,9 @@ def _open(fp, filename, ** kwargs):
         mode = "YCbCr"
 
     if mode in ("P", "PA"):
-        num_colors, has_trans, trans_index = struct.unpack('<HBB', fp.read(4))
+        num_colors, has_trans, trans_index = struct.unpack("<HBB", fp.read(4))
         palette = [c for c in fp.read(num_colors * 3)]
-        data_size = struct.unpack('<L', fp.read(4))[0]
+        data_size = struct.unpack("<L", fp.read(4))[0]
         bits = fp.read(data_size)
         if compression == Compression.DEFLATE:
             bits = zlib.decompress(bits)  # bufsize=...? Default is 16 KiB.
@@ -153,12 +153,13 @@ def _open(fp, filename, ** kwargs):
             im.info["transparency"] = trans_index
 
     else:
-        data_size = struct.unpack('<L', fp.read(4))[0]
+        data_size = struct.unpack("<L", fp.read(4))[0]
         bits = fp.read(data_size)
         if compression == Compression.DEFLATE:
             bits = zlib.decompress(bits)
         im = Image.frombytes(mode, (w, h), bits, "raw", mode)
 
+    im.format = "PIL"
     if fp.read(4) == b"Exif":
         im.info["exif"] = b"Exif" + fp.read()
 
@@ -177,8 +178,8 @@ def _save(im: Image.Image, fp: IO[bytes], filename: str | bytes):
 
     fp.write(magic)
 
-    fp.write(struct.pack('<H', im.width))
-    fp.write(struct.pack('<H', im.height))
+    fp.write(struct.pack("<H", im.width))
+    fp.write(struct.pack("<H", im.height))
 
     if im.mode == "YCbCr":
         # YCbCr is the only mode name that needs more than 4 letters.
@@ -188,16 +189,16 @@ def _save(im: Image.Image, fp: IO[bytes], filename: str | bytes):
 
     if im.mode in ("P", "PA"):
         num_colors = len(im.getpalette()) // 3
-        fp.write(struct.pack('<H', num_colors))
+        fp.write(struct.pack("<H", num_colors))
 
         if "transparency" in im.info:
             fp.write(b"\1")
-            fp.write(struct.pack('B', im.info["transparency"]))
+            fp.write(struct.pack("B", im.info["transparency"]))
         else:
             fp.write(b"\0\0")
         pal = im.getpalette()
         #fp.write(b"".join([c.c_ubyte(x) for x in pal]))
-        fp.write(struct.pack(f'{len(pal)}B', *pal))
+        fp.write(struct.pack(f"{len(pal)}B", *pal))
 
         # If a P/PA image has either (at most) 2, 4 or 16 colors in its palette,
         # we pack multiple pixels into each byte (which results in a smaller
@@ -207,10 +208,10 @@ def _save(im: Image.Image, fp: IO[bytes], filename: str | bytes):
             bits = im.tobytes()
         elif num_colors <= 4:
             bits = im.tobytes()
-            bits = struct.pack(f'{len(bits) // 4}B', *((bits[i] << 6 | bits[i + 1] << 4 | bits[i + 2] << 2 | bits[i + 3]) for i in range(0, len(bits), 4)))
+            bits = struct.pack(f"{len(bits) // 4}B", *((bits[i] << 6 | bits[i + 1] << 4 | bits[i + 2] << 2 | bits[i + 3]) for i in range(0, len(bits), 4)))
         elif num_colors <= 16:
             bits = im.tobytes()
-            bits = struct.pack(f'{len(bits) // 2}B', *((bits[i] << 4 | bits[i]) for i in range(0, len(bits), 2)))
+            bits = struct.pack(f"{len(bits) // 2}B", *((bits[i] << 4 | bits[i]) for i in range(0, len(bits), 2)))
 
         else:
             bits = im.tobytes()
@@ -220,7 +221,7 @@ def _save(im: Image.Image, fp: IO[bytes], filename: str | bytes):
     if compression == Compression.DEFLATE:
         bits = zlib.compress(bits)  # bufsize=...? Default is 16 KiB.
 
-    fp.write(struct.pack('<L', len(bits)))
+    fp.write(struct.pack("<L", len(bits)))
     fp.write(bits)
 
     if "exif" in im.info:
